@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using RestSharp;
-using RestSharp.Extensions;
 using BdTranslateSDK.Model;
 namespace BdTranslateSDK
 {
@@ -20,6 +16,10 @@ namespace BdTranslateSDK
         /// <returns></returns>
         public string Translate(string srcStr, string targetLang, string srcLang = "auto")
         {
+            if (string.IsNullOrWhiteSpace(srcStr))
+            {
+                return null;
+            }
             return TranslateMultiple(srcStr, targetLang, srcLang)[0].dst;
         }
 
@@ -32,6 +32,10 @@ namespace BdTranslateSDK
         /// <returns></returns>
         public List<MixResult> TranslateMultiple(string srcStr, string targetLang, string srcLang = "auto")
         {
+            if (string.IsNullOrWhiteSpace(srcStr))
+            {
+                return null;
+            }
             var requst = GetRequest(srcStr, targetLang, srcLang);
             IRestResponse<TranslateResult> response = null;
             response = restClient.Execute<TranslateResult>(requst);
@@ -59,7 +63,10 @@ namespace BdTranslateSDK
             salt	INT	Y	随机数	
             sign 
              */
-
+            if (string.IsNullOrWhiteSpace(srcStr))
+            {
+                return null;
+            }
             RestRequest requst = new RestRequest();
             RequestParameter param = new RequestParameter(srcStr);
             requst.AddParameter("from", param.From);
